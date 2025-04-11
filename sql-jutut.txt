@@ -1,0 +1,913 @@
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 1: Teht‰v‰ 1
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Henkilot-taulun luominen
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Teht‰v‰n‰si on muodostaa SQL-lause, jolla lis‰t‰‰n tietokantaan uusi taulu "Henkilot". Taulun tulee sis‰lt‰‰ alla olevan taulukon m‰‰rittelem‰t kent‰t samassa j‰rjestyksess‰ kuin ne ovat taulukossa esitetty. Muista myˆs huomioida muut tauluun liittyv‰t m‰‰rittelyt.
+    HENKILOT
+    Kent‰n nimi	Kent‰n tietotyyppi	Muut m‰‰rittelyt
+    henkilot_henkilo_id	integer	not null primary key
+    henkilot_etunimi	character varying(40)	not null
+    henkilot_sukunimi	character varying(40)	not null
+    henkilot_email	character varying(100)	
+
+
+Ratkaisusi
+
+CREATE TABLE HENKILOT(
+henkilot_henkilo_id    integer    not null primary key,
+henkilot_etunimi    character varying(40)    not null,
+henkilot_sukunimi    character varying(40)    not null,
+henkilot_email        character varying(100)
+)
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 1: Teht‰v‰ 2
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Tietojen lis‰‰minen Henkilot-tauluun
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Edellisess‰ teht‰v‰ss‰ laadit tietokantaan taulun "Henkilot". Nyt teht‰v‰n‰si tehd‰ SQL-lause, jolla saat syˆtetty‰ alla olevassa taulukkossa luetellut tiedot juuri laatimaasi tauluun.
+    HENKILOT
+    henkilot_henkilo_id	henkilot_etunimi	henkilot_sukunimi	henkilot_email
+    1	Maija	Ter‰v‰inen	maija@teravainen.com
+
+
+Ratkaisusi
+
+INSERT INTO HENKILOT
+VALUES    (1, 'Maija', 'Ter‰v‰inen', 'maija@teravainen.com')
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 1: Teht‰v‰ 3
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Tietojen hakeminen Henkilot-taulusta
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Edellisess‰ teht‰v‰ss‰ lis‰sit yhden henkilˆn tiedot tauluun 'Henkilot'.
+    Samaan tauluun on lis‰tty t‰m‰n j‰lkeen lis‰‰ tietoja myˆs muista henkilˆist‰.
+    Nyt teht‰v‰n‰si on laatia SQL-kysely, jolla saat selville kaikkien henkilˆiden kaikki tiedot taulusta 'Henkilot'.
+    Kyselyn tulee tulostaa tiedot esimerkkitulostuksen mukaisesti.
+
+
+Ratkaisusi
+
+select * from henkilot;
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 2: Teht‰v‰ 1
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Tietojen hakeminen Kirjat-taulusta
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Ellei toisin mainita, luvusta kaksi alkaen kaikki harjoitusteht‰v‰t liittyv‰t kirjatietokantaan,
+    jonka kuvauksen voit lukea manuaalista tai teht‰vien yhteydess‰ olevasta
+    ""-linkist‰.
+    Kirjatietokannan tutkiminen on v‰ltt‰m‰tˆnt‰ oikeiden vastausten laatimiseksi harjoitusteht‰viin.
+
+    Harjoitusteht‰v‰n‰si on laatia SQL-kysely, joka hakee kaikki "Kirjat" taulun sis‰lt‰m‰t tiedot.
+
+
+Ratkaisusi
+
+select * from kirjat; 
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 2: Teht‰v‰ 2
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjojen nimien ja hintojen hakeminen
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, jolla haetaan kaikkien kirjatietokannan () kirjojen nimet ja hinnat.
+    Kysely on laadittava siten, ett‰ vastauksessa kullakin rivill‰ on ensin kirjan nimi ja t‰m‰n j‰lkeen kirjan hinta.
+
+
+Ratkaisusi
+
+select Kirjat_kirjannimi, kirjat_hinta from kirjat;
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 2: Teht‰v‰ 3
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Tiettyjen kirjojen nimien hakeminen
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, jolla haetaan niiden kirjojen nimet (), joiden hinta on alle 25 euroa.
+    Huomaa, ett‰ itse hintaa ei haluta tulokseen, vaan ainoastaan kirjojen nimet.
+
+
+Ratkaisusi
+
+select kirjat_kirjannimi from kirjat where kirjat_hinta < 25;
+
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 2: Teht‰v‰ 4
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjojen hakemien julkaisuvuoden perusteella
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, jolla haetaan niiden kirjojen nimet ja julkaisup‰iv‰m‰‰r‰t
+    (),
+    jotka on julkaistu ennen vuotta 2000.
+
+
+
+Ratkaisusi
+
+select Kirjat_KirjanNimi,Kirjat_Julkaisupvm from kirjat where Kirjat_Julkaisupvm < '2000-01-01';
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 2: Teht‰v‰ 5
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Varastosta loppuneet kirjat
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, jolla haetaan niiden kirjojen kirjakoodit
+    (),
+    jotka ovat loppuneet varastosta, toisin sanoen kirjojen lukum‰‰r‰ varastossa on nolla.
+
+
+
+Ratkaisusi
+
+select varasto_kirja_id from varasto where varasto_lukumaara = 0;
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 3: Teht‰v‰ 1
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Edulliset suurteokset
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, jolla saat selville niiden kirjojen nimet,
+    joiden hinta on alle 45 euroa ja sivum‰‰r‰ on yli 450 sivua ().
+
+
+
+
+Ratkaisusi
+
+select kirjat_kirjannimi from kirjat where Kirjat_Hinta < 45 and Kirjat_Sivuja > 450;
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 3: Teht‰v‰ 2
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Alennushinnoiteltavat kirjat
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, jolla haetaan niiden kirjojen nimet, jotka ovat julkaistu ennen vuotta 2000 ja
+    joiden hinta on yli 30 euroa ().
+
+
+
+
+
+Ratkaisusi
+
+select kirjat_kirjannimi from kirjat where Kirjat_Julkaisupvm < '2000-01-01' and kirjat_hinta > 30; 
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 3: Teht‰v‰ 3
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Edulliset ja kalliit kirjat
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, jolla haetaan niiden kirjojen nimet,
+    joiden hinta on alle 20 euroa tai yli 40 euroa ().
+
+
+
+
+Ratkaisusi
+
+select kirjat_kirjannimi from kirjat where kirjat_hinta < 20 or kirjat_hinta > 40;
+ 
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 3: Teht‰v‰ 4
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Lyhyehkˆt teokset
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, jolla haetaan niiden kirjojen nimet,
+    joiden sivum‰‰r‰ on 100-200 sivua ().
+
+
+
+
+Ratkaisusi
+
+select kirjat_kirjannimi from kirjat where Kirjat_Sivuja >= 100 and Kirjat_Sivuja < 200; 
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 3: Teht‰v‰ 5
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Samalla kirjaimella alkavien kirjojen nimet
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Teht‰v‰n‰si on tehd‰ SQL-kysely, jolla haetaan kaikkien niiden kirjojen nimi ja hinta,
+    jotka alkavat 'K'-kirjaimella ().
+
+
+Ratkaisusi
+
+select kirjat_kirjannimi, kirjat_hinta  from kirjat where kirjat_kirjannimi like 'K%'; 
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 3: Teht‰v‰ 6
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjailijoiden nimet
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Tee SQL-kysely, jolla saat selville niiden kirjailijoiden etu- ja sukunimen,
+    joiden sukunimet sijaitsevat aakkosj‰rjestyksess‰ kirjaimen 'K' j‰lkeen ().
+    Vastauksessa tulee olla jokaisella rivill‰ ensimm‰isen‰ kirjailijan etunimi.
+
+
+
+
+
+Ratkaisusi
+
+select kirjailijat_etunimi, kirjailijat_sukunimi from kirjailijat where kirjailijat_sukunimi > 'K%'; 
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 4: Teht‰v‰ 1
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjailijoiden etu- ja sukunimet
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, jolla haetaan kirjatietokannan () kirjailijoiden etu- ja sukunimet.
+    Kyselyn tulos j‰rjestet‰‰n aakkosj‰rjestykseen sukunimen mukaan.
+    Lis‰ksi saman sukunimen omaavat henkilˆt j‰rjestet‰‰n aakkosj‰rjestykseen etunimen mukaan.
+
+
+
+
+Ratkaisusi
+
+select kirjailijat_etunimi, kirjailijat_sukunimi from kirjailijat order by kirjailijat_sukunimi, kirjailijat_etunimi;
+
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 4: Teht‰v‰ 2
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kaikkien kirjojen nimet ja hinnat
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, jolla haetaan kirjatietokannasta
+    ()
+    kaikkien kirjojen nimet ja hinnat. Kyselyn tulos j‰rjestet‰‰n hinnan perusteella siten,
+    ett‰ kallein kirja tulostetaan tuloksen ensimm‰iselle riville.
+
+
+
+Ratkaisusi
+
+select kirjat_kirjannimi, kirjat_hinta from kirjat order by Kirjat_Hinta desc;
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 4: Teht‰v‰ 3
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjailijoiden etunimet
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Teht‰v‰n‰si on laatia SQL-kysely, joka hakee kaikkien kirjailijoiden etunimet ().
+    Jokainen etunimi tulostetaan luetteloon aakkosj‰rjestyksess‰ siten,
+    ett‰ kukin etunimi tulostetaan vain ja ainoastaan kerran.
+
+
+Ratkaisusi
+
+select distinct kirjailijat_etunimi from kirjailijat order by kirjailijat_etunimi; 
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 4: Teht‰v‰ 4
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Yli 500-sivuiset kirjat
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Teht‰v‰n‰si on laatia SQL-kielinen lause, jolla saat selville kuinka monta yli 500-sivuista kirjaa on 'Kirjat' -taulussa
+    ().
+    Vastaukseen tarvitaan vain pelkk‰ kirjojen lukum‰‰r‰, eik‰ esim. listaa ko. kirjoista.
+
+
+Ratkaisusi
+
+select count(*) from kirjat where Kirjat_Sivuja >= 500; 
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 5: Teht‰v‰ 1
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjan lis‰‰minen Kirjat-tauluun
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Teht‰v‰n‰si on laatia SQL-lause, jolla tallennetaan uusi tietue kirjatietokannan (Harjoitustietokannan kuvaus) tauluun "Kirjat". Tallennettavan tietueen tulee sis‰lt‰‰ seuraavat tiedot:
+
+    Kirjat_Kirja_ID	110
+    Kirjat_KirjanNimi	Alavilla mailla hallan vaara
+    Kirjat_Tekija_ID	202
+    Kirjat_Kustantaja_ID	303
+    Kirjat_Julkaisupvm	2002-12-20
+
+
+Ratkaisusi
+
+insert into kirjat 
+(Kirjat_Kirja_ID,Kirjat_KirjanNimi,Kirjat_Tekija_ID,Kirjat_Kustantaja_ID,Kirjat_Julkaisupvm)
+values (110,'Alavilla mailla hallan vaara',202,303,'2002-12-20'); 
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 5: Teht‰v‰ 2
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjan tietojen p‰ivitt‰minen
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Edellisess‰ teht‰v‰ss‰ lis‰sit kirjan "Alavilla mailla hallan vaara" Kirjat-tauluun, mink‰ j‰lkeen taulu n‰ytti seuraavalta:
+    KIRJAT
+    kirjat_kirja_id	kirjat_kirjannimi	kirjat_tekija_id	kirjat_kustantaja_id	kirjat_sivuja	kirjat_hinta	kirjat_julkaisupvm
+    101	Kolme vanhaa miest‰	202	304	333	21.8	2002-12-04
+    102	Ilkka ja koira	201	301	310	23.1	1999-12-31
+    103	Poika ja huuhkaja	201	301	232	16.8	1996-03-14
+    104	Kev‰t	203	302	143	14.5	2000-01-01
+    105	Seitsem‰n pelikorttia	204	302	290	29.8	1991-04-19
+    106	Koko pakka	205	303	520	41.7	1990-10-10
+    107	Pikku-Antin seikkailut	201	301	56	10.4	2001-11-20
+    108	Pitk‰ talvi	202	304	1156	46.8	1970-12-01
+    109	Sinne ja t‰nne	203	303	814	41.2	1978-09-30
+    110	Alavilla mailla hallan vaara	202	303			2002-12-20
+
+    Nyt teht‰v‰n‰si on p‰ivitt‰‰ edellisess‰ teht‰v‰ss‰ lis‰‰m‰‰si tietuetta niin, ett‰ tietueen tyhj‰t kent‰t saavat alla esitetyn taulukon mukaiset arvot.
+    Kirjat_Sivuja	351
+    Kirjat_Hinta	24.5
+
+
+Ratkaisusi
+
+update kirjat set  kirjat_sivuja = 351, kirjat_hinta = 24.5 where kirjat_kirjannimi = 'Alavilla mailla hallan vaara'; 
+
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 5: Teht‰v‰ 3
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjan poistaminen Kirjat-taulusta
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-komento, joka poistaa edellisiss‰ teht‰viss‰ lis‰‰m‰si ja p‰ivitt‰m‰si tietueen taulusta "Kirjat". Tietue sis‰lt‰‰ seuraavan taulukon mukaiset tiedot.
+
+    Kirjat_Kirja_ID	110
+    Kirjat_KirjanNimi	Alavilla mailla hallan vaara
+    Kirjat_Tekija_ID	202
+    Kirjat_Kustantaja_ID	303
+    Kirjat_Sivuja	351
+    Kirjat_Hinta	24.5
+    Kirjat_Julkaisupvm	2002-12-20
+
+
+
+Ratkaisusi
+
+delete from kirjat where Kirjat_KirjanNimi = 'Alavilla mailla hallan vaara' and Kirjat_Kirja_ID = 110; 
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 6: Teht‰v‰ 1
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Eniten sivuja sis‰lt‰v‰ kirja
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, joka hakee kirjatietokannan ()
+    "Kirjat"-taulusta suurimman tauluun tallennetun kirjan sivum‰‰r‰n.
+
+
+Ratkaisusi
+
+select MAX(Kirjat_Sivuja) from kirjat;
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 6: Teht‰v‰ 2
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Varastossa olevat kirjat
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, joka hakee kirjatietokannan
+    ()
+    varastossa olevien kirjojen kokonaislukum‰‰r‰n.
+
+
+Ratkaisusi
+
+select SUM(Varasto_Lukumaara) from varasto;
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 6: Teht‰v‰ 3
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Sivum‰‰r‰n keskiarvo
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, joka hakee kirjatietokannan
+    ()
+    kirjojen keskim‰‰r‰isen sivum‰‰r‰n.
+    Keskiarvosta j‰tet‰‰n pois sellaiset kirjat, joiden sivum‰‰r‰ on alle 100.
+
+
+Ratkaisusi
+
+select avg(Kirjat_Sivuja) from kirjat where Kirjat_Sivuja >= 100; 
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 7: Teht‰v‰ 1
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjailijoiden sivum‰‰r‰t
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, joka laskee yhteen kirjatietokannan
+    ()
+    taulusta "Kirjat" kunkin kirjailijan kirjoittamien sivujen m‰‰r‰n.
+    Kyselyn tuloksessa kullekin riville tulostetaan ensin kirjailijan ID-numero (Kirjat_Tekija_ID)
+    ja t‰m‰n j‰lkeen kirjailijan yhteens‰ kirjoittamien sivujen m‰‰r‰.
+
+
+Ratkaisusi
+
+select Kirjat_Tekija_ID, sum(Kirjat_Sivuja) from kirjat group by kirjat_tekija_id order by kirjat_tekija_id;
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 7: Teht‰v‰ 2
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjailijoiden kirjojen lukum‰‰r‰t
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, joka laskee yhteen kirjatietokannan
+    ()
+    taulusta "Kirjat" kunkin kirjailijan kirjoittamien kirjojen lukum‰‰r‰n.
+    Kyselyn tuloksessa kullekin riville tulostetaan ensin kirjailijan ID-numero (KirjatTekija_ID)
+    ja t‰m‰n j‰lkeen kirjailijan kirjoittamien kirjojen lukum‰‰r‰.
+
+
+Ratkaisusi
+
+select kirjat_tekija_id, count(*) from kirjat group by Kirjat_Tekija_ID order by kirjat_tekija_id;
+
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 7: Teht‰v‰ 3
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kustantajien kustantamat kirjat
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, joka laskee yhteen eri kustantajien kustantamat kirjat ().
+    Kyselyn tuloksessa tulostetaan kullekkin riville ensin kustantajan ID-numero (Kirjat_Kustantaja_ID)
+    ja t‰m‰n j‰lkeen kustantajan kustantamien kirjojen lukum‰‰r‰n. Kyselyn tulee lis‰ksi rajata tulos niin,
+    ett‰ mukaan otetaan vain ne kustantajat, jotka ovat kustantaneet v‰hint‰‰n kolme kirjaa.
+
+
+Ratkaisusi
+
+select kirjat_kustantaja_id, count(*) from kirjat group by kirjat_kustantaja_id having count(*) >= 3; 
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 8: Teht‰v‰ 1
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjailijoiden nimet
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, jolla haetaan kaikki kirjatietokannassa
+    ()
+    olevien kirjailijoiden etu- ja sukunimet
+    esimerkkitulostuksen mukaisesti. Kyselyn tuloksessa kenttien alkuper‰iset
+    nimet/otsikot: "Kirjailijat_Etunimi" ja "Kirjailijat_Sukunimi" korvataan aliaksilla: "Etunimi" ja "Sukunimi".
+
+
+Ratkaisusi
+
+select Kirjailijat_Etunimi AS Etunimi, Kirjailijat_Sukunimi AS Sukunimi from kirjailijat; 
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 8: Teht‰v‰ 2
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjojen alennushinnat
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Teht‰v‰n‰si on laatia SQL-kysely, joka tulostaa kirjatietokannan
+    ()
+    sis‰lt‰mien kirjojen nimet, hinnat ja alennushinnat.
+    Alennushinnoista poistetaan 45% kirjan alkuper‰isest‰ hinnasta. Kyselyn tuloksen tulee olla muodoltaan esimerkkitulostuksen mukainen.
+    Huomaa, ett‰ tuloksen hinnat on tulostettava kahden desimaalin tarkkuudella. Pyˆristyksen voit tehd‰ ROUND-funktiolla,
+    jonka sis‰‰n voidaan sijoittaa matemaattisia lausekkeita.
+
+    Vihje:
+
+    Jos lausekkeen arvo ei ole tietotyyppi‰ NUMERIC, t‰ytyy tehd‰ tyyppimuunnos CAST-funktiolla seuraavalla tavalla:
+
+    ROUND(CAST(Lampojen_Keskiarvo - Paivan_Lampotila AS NUMERIC), 2)
+
+
+
+
+Ratkaisusi
+
+select kirjat_kirjannimi, Kirjat_Hinta as alkuperainenhinta, round(cast(Kirjat_Hinta*0.55 AS NUMERIC), 2) as alennushinta from kirjat; 
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 8: Teht‰v‰ 3
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kavereiden s‰hkˆpostiosoitteet
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Teht‰v‰n‰si on laatia SQL-kysely, jolla haetaan kaikki tiedot alla kuvatusta taulusta "Kaverit".
+
+
+    kaverit
+
+    kaverit_etunimicharacter varying(32)tff
+    kaverit_sukunimicharacter varying(64)tff
+    kaverit_emailcharacter varying(100)fff
+
+
+    Kyselyn tuloksena saatavan listauksen on oltava muodoltaan seuraavanlainen.
+    Kyselyn tulos j‰rjestet‰‰n aakkoselliseen j‰rjestykseen sukunimen ja etunimen mukaan mukaan.
+    Kaverit_email-kent‰ss‰ mahdolliset NULL-arvot korvataan tekstill‰ "ei s‰hkˆpostia".
+    Huomioi myˆs kenttien otsikoiden muoto esimerkkitulostuksesta.
+
+
+Ratkaisusi
+
+select kaverit_etunimi as etunimi, kaverit_sukunimi as sukunimi, COALESCE (kaverit_email, 'ei s‰hkˆpostia') as email from kaverit
+order by sukunimi, etunimi;
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 9: Teht‰v‰ 1
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kirjat kustantajineen
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-kysely, jolla haetaan kirjatietokannassa
+    ()
+    olevat kirjat ja n‰iden kustantajat.
+    Kyselyn tuloksessa kullakin rivill‰ tulostetaan ensin kirjan nimi ja t‰m‰n j‰lkeen kirjan kustantaja.
+
+
+Ratkaisusi
+
+select Kirjat_KirjanNimi, Kustantajat_KustantajanNimi 
+from kirjat 
+INNER JOIN kustantajat ON kirjat.Kirjat_Kustantaja_ID = kustantajat.Kustantajat_Kustantaja_ID; 
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 10: Teht‰v‰ 1
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Osoitteet-taulun luominen
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Teht‰v‰n‰si on laatia SQL-lause, joka luo alla kuvatun taulun "Osoitteet".
+    OSOITTEET
+    Kent‰n nimi	Kent‰n tietotyyppi	Muut m‰‰rittelyt
+    osoitteet_id	integer	not null primary key
+    osoitteet_katu	character varying(64)	default value: 'ei katuosoitetta'
+    osoitteet_postinro	character varying(5)	default value: 0
+    osoitteet_toimipaikka	character varying(32)	default value: 'ei toimipaikkaa'
+
+    Huomaa, ett‰ taulun kent‰t on sijoitettava tauluun samassa j‰rjestyksess‰ kuin ne esitetty yll‰ olevassa taulukossa.
+
+
+Ratkaisusi
+
+CREATE TABLE Osoitteet(
+osoitteet_id        integer            not null primary key,
+osoitteet_katu        character varying(64)    default 'ei katuosoitetta',
+osoitteet_postinro    character varying(5)    default 0,
+osoitteet_toimipaikka    character varying(32)    default 'ei toimipaikkaa'
+)
+ 
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 10: Teht‰v‰ 2
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Tietojen lis‰‰minen Osoitteet-tauluun
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Edellisess‰ teht‰v‰ss‰ laatimaasi tauluun on lis‰tty seuraavat tiedot:
+    Osoitteet_ID	Osoitteet_Katu	Osoitteet_PostiNro	Osoitteet_Toimipaikka
+    1	M‰kikuja 33	56000	Hanhivaara
+    2	Karhunpolku 5	22300	Otsola
+    3	Opintie 22 C 3	13200	Kumpula
+
+    Teht‰v‰n‰si on lis‰t‰ Osoitteet-tauluun seuraavat tiedot:
+    Kent‰n nimi	Kent‰n arvo
+    Osoitteet_ID	4
+    Osoitteet_Katu	Asfalttipolku 1 B 4
+    Osoitteet_PostiNro	98400
+    Osoitteet_Toimipaikka	(kentt‰‰n ei tallenneta arvoa)
+
+
+Ratkaisusi
+
+insert into Osoitteet
+values (4,'Asfalttipolku 1 B 4',98400)
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 10: Teht‰v‰ 3
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Osoitteet-taulun tietojen p‰ivitt‰minen
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-lause, joka p‰ivitt‰‰ luvun ensimm‰isess‰ teht‰v‰ss‰ laatimasi taulun "Osoitteet" kent‰n "Osoitteet_Toimipaikka" arvolla "Takapajula". P‰ivitett‰v‰n kent‰n p‰‰avaimen (Osoitteet_ID) arvo on 4.
+
+
+Ratkaisusi
+
+update Osoitteet
+set Osoitteet_Toimipaikka = 'Takapajula' where Osoitteet_ID=4
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 10: Teht‰v‰ 4
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Kent‰n lis‰‰minen Osoitteet-tauluun
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Teht‰v‰n‰si on p‰ivitt‰‰ luvun ensimm‰isess‰ teht‰v‰ss‰ laadittua taulua siten, ett‰ tauluun lis‰t‰‰n uusi kentt‰: "Osoitteet_Maa". Kent‰n tietotyypiksi m‰‰ritell‰‰n VARCHAR (pituus 32 merkki‰).
+
+
+Ratkaisusi
+
+alter table osoitteet
+add column Osoitteet_Maa varchar(32)
+
+
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 10: Teht‰v‰ 5
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Maatieto
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-lause, joka p‰ivitt‰‰ laatimasi Osoitteet-taulun kent‰n "Osoitteet_Maa" tekstill‰ "ei maatietoa". P‰ivitys suoritetaan kaikille taulussa oleville tietueille.
+
+
+Ratkaisusi
+
+update osoitteet
+set Osoitteet_Maa = 'ei maatietoa'
+ 
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 10: Teht‰v‰ 6
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Oletusarvon lis‰‰minen
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-lause, joka asettaa laatimasi Osoitteet-taulun "Osoitteet_Maa"-kent‰lle oletusarvon: "ei maatietoa".
+
+
+Ratkaisusi
+
+ALTER table Osoitteet
+alter column Osoitteet_Maa SET DEFAULT 'ei maatietoa'
+ 
+
+Omat suoritukset - Ohjelmointiteht‰v‰t - Luku 10: Teht‰v‰ 7
+Piilota teht‰v‰nanto   |   Piilota ratkaisusi   |   N‰yt‰ malliratkaisu
+
+Osoitteet-taulun poistaminen
+Teht‰v‰st‰ saadut pisteet 1
+Teht‰v‰nanto
+
+    Laadi SQL-lause, joka poistaa ‰skett‰in laatimasi Osoitteet-taulun tietokannasta.
+
+
+Ratkaisusi
+
+drop table Osoitteet 
+
+
+
+
+
+
+
+
+
+
+
+
+
+9.2 Taulujen liitt‰minen: INNER JOIN
+
+Edellisess‰ kappaleessa totesimme, ett‰ voimme syventy‰ taulujen v‰lisiin suhteisiin pohtimalla seuraavaa tiedonhakua:
+
+"Hae CD-arkistosta lainattujen albumien ID-numerot, sek‰ niiden henkilˆiden etu- ja sukunimet, jotka ovat lainanneet ko. albumit".
+
+Voidaksemme toteuttaa kyselyn, joka hakee tietoja useista tauluista, voimme k‰ytt‰‰ SQL-kielen INNER JOIN m‰‰rett‰, jolla taulut yhdistet‰‰n.
+
+INNER JOIN-m‰‰reen yleinen muoto on seuraava:
+
+[taulu1] INNER JOIN [taulu2] ON [kentt‰1] = [kentt‰2]
+
+Edellisess‰ yhdistet‰‰n taulut "taulu1" ja "taulu2" kenttien "kentt‰1" ja "kentt‰2" mukaan. Tyypillisesti ensimm‰inen kentt‰ on jonkin tietyn taulun p‰‰avain ja toinen kentt‰ vierasavain, joka yhdist‰‰ toisen taulun ensimm‰iseen. Seuraava kuva havainnollistaa, kuinka kaksi taulua yhdistyv‰t INNER JOIN-m‰‰reell‰:
+
+Kuten kuva osoittaa, INNER JOIN-m‰‰reen avulla laadittu kysely kohdistuu siihen joukkoon kahden taulun tietueista, joita yhdist‰‰ sama kent‰n arvo. Seuraava SQL-kysely havainnollistaa, kuinka INNER JOIN-m‰‰rett‰ hyˆdynnet‰‰n k‰yt‰nnˆss‰:
+Esimerkki 9.1: Lainatut albumit ja lainaajien nimet
+
+SELECT      LainaajatEtunimi, LainaajatSukunimi, LainauksetAlbumit_ID 
+FROM        Lainaajat 
+INNER JOIN  Lainaukset ON Lainaajat_ID = LainauksetLainaajat_ID
+
+Edellisen kyselyn tuloksesta voidaan n‰hd‰, ett‰ kyselyn laatimishetkell‰ tietokannasta on lainattu kolme albumia, joista kaksi albumia on lainattu Kalevi H‰rm‰lle:
+
+LainaajatEtunimi  LainaajatSukunimi  LainauksetAlbumit_ID	
+----------------  -----------------  --------------------
+Kalevi            H‰rm‰              1
+Kalevi            H‰rm‰              2
+Maija             Meikalainen        3
+
+(3 row(s) affected)
+
+Kuinka siis esimerkin 9.1 kysely toimii? Kuten t‰h‰nkin menness‰ esitetyiss‰ kyselyiss‰, ensin ilmaistaan kyselyn tulokseen halutut kent‰t, jotka t‰ll‰ kertaa ovat: "LainaajatEtunimi", "LainaajatSukunimi" ja "LainauksetAlbumit_ID". Kyselyn FROM-osassa kerrotaan, mist‰ tauluista em. kent‰t lˆytyv‰t. Lis‰ksi FROM osassa m‰‰re INNER JOIN m‰‰rittelee liitoksen mainittujen taulujen v‰lille.
+
+INNER JOIN-m‰‰reeseen kuuluva ON-osa ilmaisee, mitk‰ kent‰t toimivat liitoksen avaimina. Avainten perusteella tiedonhallintaj‰rjestelm‰ osaa poimia tiedot lainaajien nimist‰ ja n‰ille lainatuista albumeista. Kyselyn tuloksena tulostetaan ne etu- ja sukunimet, joista on tallennettu merkint‰ "Lainaukset" tauluun.
+
+
+9.3 Useiden taulujen liitt‰minen
+
+SQL-kieli ei aseta rajoja sille, kuinka monta taulua voimme yhdist‰‰ samaan kyselyyn - olettaen tietenkin, ett‰ yhdistett‰vien taulujen suhteet ovat loogisesti eheit‰. Voimme t‰ydent‰‰ esimerkin 9.1 kysely‰ siten, ett‰ kyselyss‰ kentt‰ "LainauksetAlbumit_ID" korvataan albumin nimell‰:
+Esimerkki 9.2: Lainaajien ja lainattujen albumien nimet
+
+SELECT      LainaajatEtunimi, LainaajatSukunimi, AlbumitNimi
+FROM        (Lainaajat INNER JOIN  Lainaukset ON Lainaajat_ID = LainauksetLainaajat_ID)
+INNER JOIN  Albumit ON Albumit_ID = LainauksetAlbumit_ID
+
+Nyt tuloksena olisi esim. seuraava listaus:
+
+LainaajatEtunimi  LainaajatSukunimi  AlbumitNimi	
+----------------  -----------------  -----------	
+Kalevi            H‰rm‰              Ride the lightning	
+Kalevi            H‰rm‰              Kill em all	
+Maija             Meikalainen        Master of puppets	
+
+(3 row(s) affected)
+
+Edellinen SQL-kysely voi vaikuttaa aluksi hankalalta, mutta todellisuudessa sen ymm‰rt‰minen on suhteellisen helppoa. Esimerkkiin 9.1 verrattuna kyselyyn on lis‰tty uusi INNER JOIN-m‰‰re, joka yhdist‰‰ kolmannen taulun (Albumit) kyselyyn. Seuraavat kuvat havainnollistavat kolmen taulun v‰lisi‰ suhteita:
+
+
+Mik‰li tunnet ep‰varmuutta pyrkiess‰si ymm‰rt‰m‰‰n edellisen esimerkin toimintaa, voit k‰ytt‰‰ mielikuvitustasi ja laatia itse vastaavia kyselyit‰. K‰yt‰nnˆn kokeileminen on usein nopea tie monimutkaisten kyselyiden sis‰ist‰miseen. Kun koet ymm‰rt‰neesi esimerkin, voit ryhty‰ lukemaan seuraavaa lukua, jossa k‰sitell‰‰n lis‰‰ liitosten muodostamiseen liittyvi‰ asioita.
+
+
+
+10.3 Taulun rakenteen muokkaaminen
+
+Vaikka tietokanta suunniteltaisiin huolellisesti ja se t‰ytt‰isi sille asetetut vaatimukset erinomaisesti, sen rakennetta saatetaan haluta muokata ajan myˆt‰. Tietokannan muokkaaminen tarkoittaa k‰yt‰nnˆss‰ taulujen lis‰‰mist‰, poistamista ja olemassa olevien taulujen muokkaamista. T‰ss‰ kappalleessa tarkastellaan, kuinka tietokannassa olevan taulun rakennetta voidaan muokata.
+
+Kun tauluun halutaan j‰lkik‰teen lis‰t‰ uusi kentt‰, voidaan k‰ytt‰‰ ALTER-komentoa:
+Esimerkki 10.7: Kent‰n lis‰‰minen tauluun Osoitteet
+
+ALTER TABLE   Osoitteet 
+ADD COLUMN    Email VARCHAR(64)
+
+Vastaavasti taulusta voidaan poistaa kentti‰:
+Esimerkki 10.8: Kent‰n poistaminen taulusta Osoitteet
+
+ALTER TABLE   Osoitteet 
+DROP COLUMN   Email RESTRICT
+
+Edellinen esimerkki poistaisi kent‰n "Email" taulusta "Osoitteet". M‰‰re RESTRICT est‰‰ kent‰n poistamisen, mik‰li kentt‰‰n on m‰‰ritelty jokin viiteyhteys. Vaihtoehtoisesti voidaan k‰ytt‰‰ CASCADE -m‰‰rett‰, jolloin kentt‰ ja sen viite-eheyteen liittyv‰t m‰‰reet (esim. vierasavain) poistetaan. Kentti‰ poistettaessa juuri viite-eheyteen on kiinnitett‰v‰ huomiota - koko tietokannan k‰yttˆ voi esty‰ kriittisen kent‰n poistamisen tuloksena.
+
+ALTER-komennon avulla voi luonnollisesti muokata kentt‰‰ monin eri tavoin. Seuraavassa esimerkiss‰ havainnollistetaan, kuinka kent‰lle voidaan asettaa oletusarvo DEFAULT-m‰‰reell‰:
+Esimerkki 10.9: Kent‰lle DEFAULT-arvo
+
+ALTER TABLE   Henkilot 
+ALTER COLUMN  SyntymaPvm SET DEFAULT '0000-00-00'
+
+10.4 Taulun poistaminen tietokannasta
+
+Tietokannasta voidaan poistaa kokonaisia tauluja SQL-kielen DROP TABLE -komennolla. Taulua poistettaessa voidaan valita kolmesta vaihtoehdosta sopivin:
+
+    taulun poistaminen viite-eheysm‰‰reist‰ riippumatta
+    taulun poistaminen jos viite-eheysm‰‰reit‰ ei ole
+    taulun ja sen sidostaulujen poistaminen 
+
+Kun jokin taulu halutaan poistaa riippumatta siit‰, onko taulu sidoksissa muihin tauluihin, voidaan k‰ytt‰‰ DROP TABLE -komentoa ilman m‰‰reit‰:
+Esimerkki 10.10: Taulun poistaminen
+
+DROP TABLE   Osoitteet
+
+Mik‰li edelliseen lauseeseen lis‰t‰‰n m‰‰re "RESTRICT", taulua ei poisteta jos se on viiteyhteydess‰ johonkin muuhun tauluun:
+Esimerkki 10.11: Taulun poistaminen (RESTRICT)
+
+DROP TABLE   Osoitteet RESTRICT
+
+Mik‰li halutaan poistaa taulu, sek‰ ne taulut, jotka ovat viiteyhteydess‰ poistettavaan tauluun voidaan k‰ytt‰‰ m‰‰rett‰ "CASCADE":
+Esimerkki 10.12: Taulun poistaminen (CASCADE)
+
+DROP TABLE   Osoitteet CASCADE
+
+
+
+
+
+INSERT INTO   Lainaajat 
+VALUES        (1, 'Esko', 'Tahvanainen', '0503787843', 'esko@email.com')
+
+
+UPDATE [taulu] SET [kentt‰1 = uusi_arvo1, ... kentt‰N = uusi_arvoN] WHERE [ehto]
+
+UPDATE-komennon havainnollistamiseksi p‰ivitet‰‰n Esko Tahvanaisen s‰hkˆpostiosoite:
+Esimerkki 5.4: Eskolle uusi s‰hkˆpostiosoite
+
+UPDATE   Lainaajat 
+SET      LainaajatEmail = 'esko.tahvanainen@email.com'
+WHERE    LainaajatEtunimi= 'Esko' AND LainaajatSukunimi = 'Tahvanainen'
+
+Huomaa, ett‰ p‰ivitett‰ess‰ yksitt‰isen tietueen kentti‰, on ehto-osan muodostamisessa oltava tarkkana. Mik‰li edellisess‰ esimerkiss‰ ei olisi ehtoa, jolla juuri tietty kentt‰ lˆydet‰‰n, tuloksena olisi kaikkien s‰hkˆpostikenttien p‰ivitt‰minen samalla s‰hkˆpostiosoitteella.
+
+UPDATE-komennon yhteydess‰ voidaan k‰ytt‰‰ matemaattisia operaatioita samoin kuin esimerkiksi k‰ytett‰ess‰ SELECT-lausetta. T‰m‰n havainnollistamiseksi otetaan esimerkki, jossa kasvatetaan kent‰n .Kentta1. sis‰lt‰mi‰ arvoja:
