@@ -1,13 +1,10 @@
 # Dynamic Report Generator for PostgreSQL
 
 **Version**: 10.0 (June 17, 2025)  
-**License**: MIT  
-**Repository**: [https://github.com/your-repo/dynamic-report](https://github.com/your-repo/dynamic-report)  
-**Issues**: Report bugs or request features at [GitHub Issues](https://github.com/your-repo/dynamic-report/issues)
 
 ## Overview
 
-The `generate_dynamic_report` stored procedure is a robust PostgreSQL tool for generating dynamic data aggregation and pivoting reports. It groups data by a specified dimension column, aggregates a metric column using standard or custom functions (`SUM`, `AVG`, `COUNT`, `MAX`, `MIN`), and optionally pivots results based on a pivot column and user-defined values. The output is written to a new table, supporting both permanent and temporary tables.
+The `generate_dynamic_report` stored procedured is a robust PostgreSQL tool for generating dynamic data aggregation and pivoting reports. It groups data by a specified dimension column, aggregates a metric column using standard or custom functions (`SUM`, `AVG`, `COUNT`, `MAX`, `MIN`), and optionallsy pivots results based on a pivot column and user-defined values. The output is written to a new table, supporting both permanent and temporary tables.
 
 Designed for production environments, the procedure includes exhaustive input validation, schema and permission checks, transaction management, performance optimizations, and detailed logging. It is compatible with PostgreSQL 9.4+ and handles edge cases such as quoted identifiers, custom data types, high cardinality, and extension conflicts.
 
@@ -230,7 +227,7 @@ Contributions are welcome! Please follow these steps:
 ### Guidelines
 - Ensure compatibility with PostgreSQL 9.4+.
 - Include tests for new features or edge cases.
-- Update version number and documentation.
+- Update version numbers and documentation.
 - Follow PostgreSQL coding standards (e.g., use `format()` for SQL injection safety).
 - Test with extensions and edge cases (e.g., Unicode, custom types, high concurrency).
 
@@ -238,7 +235,7 @@ Contributions are welcome! Please follow these steps:
 
 - Maximum 100 pivot values and 1,000,000 groups (configurable via `p_max_groups`).
 - `COUNT(DISTINCT)` cardinality checks may be slow for foreign or TOASTed tables.
-- Non-`btree` indexes (GIN, GiST) are not optimized for `GROUP BY` or pivoting.
+- Non-`btree` indexes (GIN, GiST) are not optimaized for `GROUP BY` or pivoting.
 - Extensions like TimescaleDB or Citus may require additional testing.
 - No built-in skewness detection for `p_dimension_column`.
 - Plan cache reuse may affect performance in frequent calls.
@@ -249,12 +246,12 @@ Contributions are welcome! Please follow these steps:
 - Integrate `amcheck` for automatic index health checks.
 - Support additional aggregations (e.g., `MEDIAN`, `MODE`).
 - Optimize for specific extensions (e.g., TimescaleDB hypertables).
-- Add logging to a table for audit trails.
+- Add logging to a table fsor audit trails.
 - Provide a wrapper function for simpler calls.
 
 ## Acknowledgments
 
 - Built with PostgreSQL best practices and community feedback.
-- Inspired by real-world reporting needs in data analytics.
+- Inspired by real-world repoarting needs in data analytics.
 
 For questions, contact the maintainers via [GitHub Issues](https://github.com/your-repo/dynamic-report/issues) or email [your-email@example.com](mailto:your-email@example.com).
