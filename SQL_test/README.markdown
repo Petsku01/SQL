@@ -232,7 +232,7 @@ Known Limitations
     No built-in skewness detection for p_dimension_column.
     Plan cache reuse may affect performance in frequent calls.
 
-Future Enhancements
+Future Enhancements??
 
     Add skewness detection for p_dimension_column.
     Integrate amcheck for automatic index health checks.
@@ -241,9 +241,3 @@ Future Enhancements
     Add logging to a table fsor audit trails.
     Provide a wrapper function for simpler calls.
 
-Acknowledgments
-
-    Built with PostgreSQL best practices and community feedback.
-    Inspired by real-world repoarting needs in data analytics.
-
-For questions, contact the maintainers via GitHub Issues or email your-email@example.com.
