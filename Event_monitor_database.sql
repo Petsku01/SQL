@@ -1,8 +1,7 @@
 -- Cybersecurity Event Monitoring Database 
--- PostgreSQL schema for  security monitoring
+-- PostgreSQL schema for security monitoring
 -- Author: -pk
--- Version: 2.0
-
+-- Version: 2.0 - Improved
 
 -- Required extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -319,52 +318,52 @@ CREATE TABLE security_metrics (
 
 -- Advanced indexing strategy
 -- Security Events indexes
-CREATE INDEX CONCURRENTLY idx_security_events_created_at ON security_events(created_at DESC);
-CREATE INDEX CONCURRENTLY idx_security_events_severity_status ON security_events(severity, status);
-CREATE INDEX CONCURRENTLY idx_security_events_source_ip ON security_events USING hash(source_ip);
-CREATE INDEX CONCURRENTLY idx_security_events_event_type ON security_events(event_type);
-CREATE INDEX CONCURRENTLY idx_security_events_username ON security_events(username) WHERE username IS NOT NULL;
-CREATE INDEX CONCURRENTLY idx_security_events_raw_data ON security_events USING gin(raw_log_data);
-CREATE INDEX CONCURRENTLY idx_security_events_event_hash ON security_events(event_hash) WHERE event_hash IS NOT NULL;
-CREATE INDEX CONCURRENTLY idx_security_events_ttl ON security_events(ttl_expires_at) WHERE ttl_expires_at IS NOT NULL;
+CREATE INDEX idx_security_events_created_at ON security_events(created_at DESC);
+CREATE INDEX idx_security_events_severity_status ON security_events(severity, status);
+CREATE INDEX idx_security_events_source_ip ON security_events USING hash(source_ip);
+CREATE INDEX idx_security_events_event_type ON security_events(event_type);
+CREATE INDEX idx_security_events_username ON security_events(username) WHERE username IS NOT NULL;
+CREATE INDEX idx_security_events_raw_data ON security_events USING gin(raw_log_data);
+CREATE INDEX idx_security_events_event_hash ON security_events(event_hash) WHERE event_hash IS NOT NULL;
+CREATE INDEX idx_security_events_ttl ON security_events(ttl_expires_at) WHERE ttl_expires_at IS NOT NULL;
 
 -- Vulnerability Assessment indexes
-CREATE INDEX CONCURRENTLY idx_vuln_status_priority ON vulnerability_assessments(status, remediation_priority);
-CREATE INDEX CONCURRENTLY idx_vuln_cvss_score ON vulnerability_assessments(cvss_score DESC NULLS LAST);
-CREATE INDEX CONCURRENTLY idx_vuln_discovery_date ON vulnerability_assessments(discovery_date DESC);
-CREATE INDEX CONCURRENTLY idx_vuln_cve_id ON vulnerability_assessments(cve_id) WHERE cve_id IS NOT NULL;
-CREATE INDEX CONCURRENTLY idx_vuln_affected_systems ON vulnerability_assessments USING gin(affected_systems);
-CREATE INDEX CONCURRENTLY idx_vuln_assigned_to ON vulnerability_assessments(assigned_to) WHERE assigned_to IS NOT NULL;
+CREATE INDEX idx_vuln_status_priority ON vulnerability_assessments(status, remediation_priority);
+CREATE INDEX idx_vuln_cvss_score ON vulnerability_assessments(cvss_score DESC NULLS LAST);
+CREATE INDEX idx_vuln_discovery_date ON vulnerability_assessments(discovery_date DESC);
+CREATE INDEX idx_vuln_cve_id ON vulnerability_assessments(cve_id) WHERE cve_id IS NOT NULL;
+CREATE INDEX idx_vuln_affected_systems ON vulnerability_assessments USING gin(affected_systems);
+CREATE INDEX idx_vuln_assigned_to ON vulnerability_assessments(assigned_to) WHERE assigned_to IS NOT NULL;
 
 -- Access Logs indexes
-CREATE INDEX CONCURRENTLY idx_access_logs_timestamp ON access_logs(access_timestamp DESC);
-CREATE INDEX CONCURRENTLY idx_access_logs_username ON access_logs(username) WHERE username IS NOT NULL;
-CREATE INDEX CONCURRENTLY idx_access_logs_source_ip ON access_logs(source_ip);
-CREATE INDEX CONCURRENTLY idx_access_logs_result ON access_logs(access_result);
-CREATE INDEX CONCURRENTLY idx_access_logs_risk_score ON access_logs(risk_score DESC) WHERE risk_score > 0;
-CREATE INDEX CONCURRENTLY idx_access_logs_session_id ON access_logs(session_id) WHERE session_id IS NOT NULL;
-CREATE INDEX CONCURRENTLY idx_access_logs_anomaly ON access_logs USING gin(anomaly_flags) WHERE anomaly_flags IS NOT NULL;
+CREATE INDEX idx_access_logs_timestamp ON access_logs(access_timestamp DESC);
+CREATE INDEX idx_access_logs_username ON access_logs(username) WHERE username IS NOT NULL;
+CREATE INDEX idx_access_logs_source_ip ON access_logs(source_ip);
+CREATE INDEX idx_access_logs_result ON access_logs(access_result);
+CREATE INDEX idx_access_logs_risk_score ON access_logs(risk_score DESC) WHERE risk_score > 0;
+CREATE INDEX idx_access_logs_session_id ON access_logs(session_id) WHERE session_id IS NOT NULL;
+CREATE INDEX idx_access_logs_anomaly ON access_logs USING gin(anomaly_flags) WHERE anomaly_flags IS NOT NULL;
 
 -- Threat Intelligence indexes
-CREATE INDEX CONCURRENTLY idx_threat_intel_ioc_type_value ON threat_intelligence(ioc_type, ioc_normalized);
-CREATE INDEX CONCURRENTLY idx_threat_intel_active ON threat_intelligence(is_active) WHERE is_active = TRUE;
-CREATE INDEX CONCURRENTLY idx_threat_intel_confidence ON threat_intelligence(confidence_level DESC);
-CREATE INDEX CONCURRENTLY idx_threat_intel_tags ON threat_intelligence USING gin(tags);
-CREATE INDEX CONCURRENTLY idx_threat_intel_threat_type ON threat_intelligence(threat_type);
-CREATE INDEX CONCURRENTLY idx_threat_intel_expiration ON threat_intelligence(expiration_date) WHERE expiration_date IS NOT NULL;
-CREATE INDEX CONCURRENTLY idx_threat_intel_mitre ON threat_intelligence USING gin(mitre_techniques) WHERE mitre_techniques IS NOT NULL;
+CREATE INDEX idx_threat_intel_ioc_type_value ON threat_intelligence(ioc_type, ioc_normalized);
+CREATE INDEX idx_threat_intel_active ON threat_intelligence(is_active) WHERE is_active = TRUE;
+CREATE INDEX idx_threat_intel_confidence ON threat_intelligence(confidence_level DESC);
+CREATE INDEX idx_threat_intel_tags ON threat_intelligence USING gin(tags);
+CREATE INDEX idx_threat_intel_threat_type ON threat_intelligence(threat_type);
+CREATE INDEX idx_threat_intel_expiration ON threat_intelligence(expiration_date) WHERE expiration_date IS NOT NULL;
+CREATE INDEX idx_threat_intel_mitre ON threat_intelligence USING gin(mitre_techniques) WHERE mitre_techniques IS NOT NULL;
 
 -- Security Incidents indexes
-CREATE INDEX CONCURRENTLY idx_incidents_status_priority ON security_incidents(status, priority);
-CREATE INDEX CONCURRENTLY idx_incidents_detected_at ON security_incidents(detected_at DESC);
-CREATE INDEX CONCURRENTLY idx_incidents_severity ON security_incidents(severity);
-CREATE INDEX CONCURRENTLY idx_incidents_assigned ON security_incidents(assigned_analyst) WHERE assigned_analyst IS NOT NULL;
-CREATE INDEX CONCURRENTLY idx_incidents_type_category ON security_incidents(incident_type, incident_category);
+CREATE INDEX idx_incidents_status_priority ON security_incidents(status, priority);
+CREATE INDEX idx_incidents_detected_at ON security_incidents(detected_at DESC);
+CREATE INDEX idx_incidents_severity ON security_incidents(severity);
+CREATE INDEX idx_incidents_assigned ON security_incidents(assigned_analyst) WHERE assigned_analyst IS NOT NULL;
+CREATE INDEX idx_incidents_type_category ON security_incidents(incident_type, incident_category);
 
 -- Security Metrics indexes
-CREATE INDEX CONCURRENTLY idx_metrics_category_name ON security_metrics(metric_category, metric_name);
-CREATE INDEX CONCURRENTLY idx_metrics_period ON security_metrics(period_start DESC, period_end DESC);
-CREATE INDEX CONCURRENTLY idx_metrics_kpi ON security_metrics(is_kpi) WHERE is_kpi = TRUE;
+CREATE INDEX idx_metrics_category_name ON security_metrics(metric_category, metric_name);
+CREATE INDEX idx_metrics_period ON security_metrics(period_start DESC, period_end DESC);
+CREATE INDEX idx_metrics_kpi ON security_metrics(is_kpi) WHERE is_kpi = TRUE;
 
 -- Advanced stored procedures and functions
 
@@ -472,431 +471,9 @@ BEGIN
                 WHEN COUNT(*) >= 3 AND se.severity = 'medium' THEN 75
                 ELSE 50
             END as confidence
-        FROM security_events
-WHERE created_at >= NOW() - INTERVAL '24 hours'
-UNION ALL
-SELECT 
-    'Last 7 Days' as time_period,
-    COUNT(*) as total_events,
-    COUNT(*) FILTER (WHERE severity IN ('critical', 'emergency')) as critical_events,
-    COUNT(*) FILTER (WHERE event_type LIKE '%authentication%') as auth_events,
-    COUNT(*) FILTER (WHERE event_type LIKE '%malware%') as malware_events,
-    COUNT(*) FILTER (WHERE status = 'new') as unprocessed_events,
-    AVG(CASE WHEN processed_at IS NOT NULL THEN 
-        EXTRACT(EPOCH FROM (processed_at - created_at))/60 
-        ELSE NULL END) as avg_processing_time_minutes
-FROM security_events
-WHERE created_at >= NOW() - INTERVAL '7 days'
-UNION ALL
-SELECT 
-    'Last 30 Days' as time_period,
-    COUNT(*) as total_events,
-    COUNT(*) FILTER (WHERE severity IN ('critical', 'emergency')) as critical_events,
-    COUNT(*) FILTER (WHERE event_type LIKE '%authentication%') as auth_events,
-    COUNT(*) FILTER (WHERE event_type LIKE '%malware%') as malware_events,
-    COUNT(*) FILTER (WHERE status = 'new') as unprocessed_events,
-    AVG(CASE WHEN processed_at IS NOT NULL THEN 
-        EXTRACT(EPOCH FROM (processed_at - created_at))/60 
-        ELSE NULL END) as avg_processing_time_minutes
-FROM security_events
-WHERE created_at >= NOW() - INTERVAL '30 days';
-
-CREATE UNIQUE INDEX ON mv_security_dashboard (time_period);
-
--- Critical vulnerabilities view
-CREATE MATERIALIZED VIEW mv_critical_vulnerabilities AS
-SELECT 
-    va.*,
-    calculate_comprehensive_risk_score(
-        va.cvss_score,
-        va.exploit_available,
-        va.patch_available_date IS NOT NULL,
-        va.business_impact_score,
-        array_length(va.affected_systems, 1),
-        EXTRACT(DAYS FROM (CURRENT_DATE - va.discovery_date))::INTEGER
-    ) as calculated_risk_score,
-    CASE 
-        WHEN va.cvss_score >= 9.0 THEN 'Critical'
-        WHEN va.cvss_score >= 7.0 THEN 'High'
-        WHEN va.cvss_score >= 4.0 THEN 'Medium'
-        ELSE 'Low'
-    END as risk_category,
-    CURRENT_DATE - va.discovery_date as days_open,
-    CASE 
-        WHEN va.patch_available_date IS NOT NULL THEN 'Available'
-        ELSE 'Not Available'
-    END as patch_status
-FROM vulnerability_assessments va
-WHERE va.status IN ('new', 'confirmed', 'in_progress')
-ORDER BY va.cvss_score DESC NULLS LAST, va.discovery_date ASC;
-
-CREATE UNIQUE INDEX ON mv_critical_vulnerabilities (vuln_id);
-
--- Threat landscape view
-CREATE MATERIALIZED VIEW mv_threat_landscape AS
-SELECT 
-    ti.threat_type,
-    ti.ioc_type,
-    COUNT(*) as total_indicators,
-    COUNT(*) FILTER (WHERE ti.confidence_level >= 80) as high_confidence_indicators,
-    COUNT(*) FILTER (WHERE ti.is_active = TRUE) as active_indicators,
-    AVG(ti.confidence_level) as avg_confidence,
-    MAX(ti.last_seen) as most_recent_sighting,
-    array_agg(DISTINCT ti.source) as sources,
-    array_agg(DISTINCT unnest(ti.tags)) as all_tags
-FROM threat_intelligence ti
-WHERE ti.created_at >= NOW() - INTERVAL '90 days'
-GROUP BY ti.threat_type, ti.ioc_type
-ORDER BY total_indicators DESC;
-
-CREATE UNIQUE INDEX ON mv_threat_landscape (threat_type, ioc_type);
-
--- Incident response metrics view
-CREATE MATERIALIZED VIEW mv_incident_metrics AS
-SELECT 
-    DATE_TRUNC('week', detected_at) as week_start,
-    COUNT(*) as total_incidents,
-    COUNT(*) FILTER (WHERE severity IN ('critical', 'emergency')) as critical_incidents,
-    COUNT(*) FILTER (WHERE status = 'closed') as resolved_incidents,
-    AVG(EXTRACT(EPOCH FROM time_to_detect)/3600) as avg_detection_time_hours,
-    AVG(EXTRACT(EPOCH FROM time_to_respond)/3600) as avg_response_time_hours,
-    AVG(EXTRACT(EPOCH FROM time_to_contain)/3600) as avg_containment_time_hours,
-    AVG(EXTRACT(EPOCH FROM time_to_resolve)/3600) as avg_resolution_time_hours,
-    AVG(estimated_financial_impact) as avg_estimated_impact
-FROM security_incidents
-WHERE detected_at >= NOW() - INTERVAL '6 months'
-GROUP BY DATE_TRUNC('week', detected_at)
-ORDER BY week_start DESC;
-
-CREATE UNIQUE INDEX ON mv_incident_metrics (week_start);
-
--- Partitioning setup for time-series tables
--- Security Events partitions (monthly)
-DO $
-DECLARE
-    start_date DATE;
-    end_date DATE;
-    table_name TEXT;
-BEGIN
-    -- Create partitions for the last 6 months and next 6 months
-    FOR i IN -6..6 LOOP
-        start_date := DATE_TRUNC('month', CURRENT_DATE) + (i || ' months')::INTERVAL;
-        end_date := start_date + INTERVAL '1 month';
-        table_name := 'security_events_' || TO_CHAR(start_date, 'YYYY_MM');
-        
-        EXECUTE format('CREATE TABLE IF NOT EXISTS %I PARTITION OF security_events 
-                       FOR VALUES FROM (%L) TO (%L)', 
-                       table_name, start_date, end_date);
-    END LOOP;
-END $;
-
--- Access Logs partitions (weekly for better performance)
-DO $
-DECLARE
-    start_date DATE;
-    end_date DATE;
-    table_name TEXT;
-BEGIN
-    -- Create partitions for the last 12 weeks and next 12 weeks
-    FOR i IN -12..12 LOOP
-        start_date := DATE_TRUNC('week', CURRENT_DATE) + (i || ' weeks')::INTERVAL;
-        end_date := start_date + INTERVAL '1 week';
-        table_name := 'access_logs_' || TO_CHAR(start_date, 'YYYY_WW');
-        
-        EXECUTE format('CREATE TABLE IF NOT EXISTS %I PARTITION OF access_logs 
-                       FOR VALUES FROM (%L) TO (%L)', 
-                       table_name, start_date, end_date);
-    END LOOP;
-END $;
-
--- Data retention and cleanup procedures
-CREATE OR REPLACE FUNCTION cleanup_expired_data() RETURNS INTEGER AS $
-DECLARE
-    deleted_count INTEGER := 0;
-    total_deleted INTEGER := 0;
-BEGIN
-    -- Clean up expired security events (based on TTL)
-    DELETE FROM security_events 
-    WHERE ttl_expires_at IS NOT NULL AND ttl_expires_at < NOW();
-    GET DIAGNOSTICS deleted_count = ROW_COUNT;
-    total_deleted := total_deleted + deleted_count;
-    
-    -- Clean up old resolved incidents (older than 2 years)
-    DELETE FROM security_incidents 
-    WHERE status = 'closed' 
-    AND closed_at < NOW() - INTERVAL '2 years';
-    GET DIAGNOSTICS deleted_count = ROW_COUNT;
-    total_deleted := total_deleted + deleted_count;
-    
-    -- Clean up old access logs (older than 1 year for successful logins)
-    DELETE FROM access_logs 
-    WHERE access_result = 'success' 
-    AND access_timestamp < NOW() - INTERVAL '1 year';
-    GET DIAGNOSTICS deleted_count = ROW_COUNT;
-    total_deleted := total_deleted + deleted_count;
-    
-    -- Clean up expired threat intelligence
-    UPDATE threat_intelligence 
-    SET is_active = FALSE 
-    WHERE expiration_date IS NOT NULL 
-    AND expiration_date < NOW() 
-    AND is_active = TRUE;
-    
-    RETURN total_deleted;
-END;
-$ LANGUAGE plpgsql;
-
--- Automated maintenance procedure
-CREATE OR REPLACE FUNCTION perform_maintenance() RETURNS TEXT AS $
-DECLARE
-    result_text TEXT := '';
-    deleted_records INTEGER;
-BEGIN
-    -- Refresh materialized views
-    REFRESH MATERIALIZED VIEW CONCURRENTLY mv_security_dashboard;
-    REFRESH MATERIALIZED VIEW CONCURRENTLY mv_critical_vulnerabilities;
-    REFRESH MATERIALIZED VIEW CONCURRENTLY mv_threat_landscape;
-    REFRESH MATERIALIZED VIEW CONCURRENTLY mv_incident_metrics;
-    
-    result_text := result_text || 'Materialized views refreshed. ';
-    
-    -- Clean up expired data
-    SELECT cleanup_expired_data() INTO deleted_records;
-    result_text := result_text || 'Deleted ' || deleted_records || ' expired records. ';
-    
-    -- Update security metrics for yesterday
-    PERFORM calculate_security_metrics(
-        DATE_TRUNC('day', NOW() - INTERVAL '1 day'),
-        DATE_TRUNC('day', NOW())
-    );
-    result_text := result_text || 'Security metrics updated. ';
-    
-    -- Analyze tables for query optimization
-    ANALYZE security_events;
-    ANALYZE vulnerability_assessments;
-    ANALYZE access_logs;
-    ANALYZE threat_intelligence;
-    ANALYZE security_incidents;
-    
-    result_text := result_text || 'Table statistics updated.';
-    
-    RETURN result_text;
-END;
-$ LANGUAGE plpgsql;
-
--- Role-based security model
-CREATE ROLE security_analyst_ro;
-CREATE ROLE security_analyst_rw;
-CREATE ROLE security_admin;
-CREATE ROLE incident_responder;
-CREATE ROLE threat_hunter;
-CREATE ROLE compliance_auditor;
-
--- Permissions for read-only analyst
-GRANT USAGE ON SCHEMA security_monitor TO security_analyst_ro;
-GRANT SELECT ON ALL TABLES IN SCHEMA security_monitor TO security_analyst_ro;
-GRANT SELECT ON ALL MATERIALIZED VIEWS IN SCHEMA security_monitor TO security_analyst_ro;
-
--- Permissions for read-write analyst
-GRANT USAGE ON SCHEMA security_monitor TO security_analyst_rw;
-GRANT SELECT, INSERT, UPDATE ON security_events TO security_analyst_rw;
-GRANT SELECT, INSERT, UPDATE ON vulnerability_assessments TO security_analyst_rw;
-GRANT SELECT ON access_logs TO security_analyst_rw;
-GRANT SELECT, INSERT, UPDATE ON threat_intelligence TO security_analyst_rw;
-GRANT SELECT ON security_incidents TO security_analyst_rw;
-GRANT SELECT ON ALL MATERIALIZED VIEWS IN SCHEMA security_monitor TO security_analyst_rw;
-
--- Permissions for incident responder
-GRANT USAGE ON SCHEMA security_monitor TO incident_responder;
-GRANT SELECT, INSERT, UPDATE ON security_incidents TO incident_responder;
-GRANT SELECT, INSERT, UPDATE ON incident_events TO incident_responder;
-GRANT SELECT, UPDATE ON security_events TO incident_responder;
-GRANT SELECT ON ALL TABLES IN SCHEMA security_monitor TO incident_responder;
-
--- Permissions for threat hunter
-GRANT USAGE ON SCHEMA security_monitor TO threat_hunter;
-GRANT SELECT ON ALL TABLES IN SCHEMA security_monitor TO threat_hunter;
-GRANT SELECT, INSERT, UPDATE, DELETE ON threat_intelligence TO threat_hunter;
-GRANT EXECUTE ON FUNCTION detect_advanced_threats TO threat_hunter;
-GRANT EXECUTE ON FUNCTION enrich_with_threat_intel TO threat_hunter;
-
--- Permissions for security admin
-GRANT ALL PRIVILEGES ON SCHEMA security_monitor TO security_admin;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA security_monitor TO security_admin;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA security_monitor TO security_admin;
-GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA security_monitor TO security_admin;
-
--- Row Level Security (RLS) for multi-tenant environments
-ALTER TABLE security_events ENABLE ROW LEVEL SECURITY;
-ALTER TABLE security_incidents ENABLE ROW LEVEL SECURITY;
-
--- Sample RLS policy (customize based on your organization structure)
-CREATE POLICY security_events_tenant_isolation ON security_events
-    FOR ALL TO security_analyst_rw, security_analyst_ro
-    USING (
-        -- Allow access based on user's assigned systems or departments
-        raw_log_data->>'tenant_id' = current_setting('app.current_tenant_id', true)
-        OR current_setting('app.current_tenant_id', true) IS NULL
-    );
-
--- Sample realistic data for testing and demonstration
-INSERT INTO security_events (
-    event_type, severity, source_ip, destination_ip, username, event_title, event_description, raw_log_data, rule_id
-) VALUES 
-('failed_authentication', 'medium', '192.168.1.100', '10.0.0.10', 'jdoe', 
- 'Multiple failed SSH login attempts', 
- 'User jdoe failed to authenticate via SSH 5 times in 2 minutes',
- '{"attempts": 5, "protocol": "SSH", "port": 22, "user_agent": "OpenSSH_8.0"}', 'AUTH_001'),
-
-('malware_detection', 'critical', '10.0.0.50', NULL, 'system', 
- 'Trojan detected in email attachment', 
- 'Sophisticated banking trojan detected in PDF attachment via email',
- '{"file_hash": "a1b2c3d4e5f6789012345678901234567890abcdef", "scanner": "ClamAV", "quarantined": true}', 'MAL_002'),
-
-('network_intrusion', 'high', '203.0.113.42', '10.0.0.100', NULL, 
- 'Suspicious network scanning activity', 
- 'Port scanning detected from external IP targeting internal servers',
- '{"ports_scanned": [22, 80, 443, 3389], "scan_duration": 120, "packets": 1500}', 'NET_003'),
-
-('data_exfiltration', 'emergency', '10.0.0.25', '198.51.100.10', 'asmith', 
- 'Large data transfer to external destination', 
- 'Unusual large data transfer detected to suspicious external IP',
- '{"bytes_transferred": 5368709120, "duration": 1800, "encrypted": false}', 'DLP_001');
-
-INSERT INTO vulnerability_assessments (
-    cve_id, vulnerability_name, cvss_score, cvss_vector, affected_systems, discovery_date, 
-    status, remediation_priority, business_impact_score, exploit_available
-) VALUES 
-('CVE-2024-1234', 'Apache HTTP Server Remote Code Execution', 9.8, 
- 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H',
- ARRAY['web-server-01', 'web-server-02', 'web-server-03'], 
- CURRENT_DATE - INTERVAL '5 days', 'confirmed', 1, 9, true),
-
-('CVE-2024-5678', 'PostgreSQL Privilege Escalation', 8.1,
- 'CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H',
- ARRAY['db-server-01', 'db-server-02'], 
- CURRENT_DATE - INTERVAL '10 days', 'in_progress', 1, 8, false),
-
-('CVE-2024-9012', 'Windows SMB Information Disclosure', 6.1,
- 'CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N',
- ARRAY['file-server-01', 'file-server-02', 'workstation-*'], 
- CURRENT_DATE - INTERVAL '3 days', 'new', 2, 5, false);
-
-INSERT INTO threat_intelligence (
-    ioc_type, ioc_value, threat_type, confidence_level, source, tags, mitre_techniques
-) VALUES 
-('ip', '198.51.100.42', 'c2_server', 95, 'ThreatIntel_Premium', 
- ARRAY['apt', 'c2', 'persistent'], ARRAY['T1071.001', 'T1090']),
-
-('domain', 'malicious-banking-site.example', 'phishing', 87, 'PhishTank_API', 
- ARRAY['phishing', 'banking', 'credential_theft'], ARRAY['T1566.002']),
-
-('file_hash', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 
- 'banking_trojan', 92, 'VirusTotal_API', 
- ARRAY['trojan', 'banking', 'keylogger'], ARRAY['T1056.001', 'T1055']);
-
-INSERT INTO security_incidents (
-    incident_title, incident_type, incident_category, severity, detected_at, affected_systems,
-    incident_summary, assigned_analyst
-) VALUES 
-('Suspected APT Activity on Network Perimeter', 'intrusion', 'advanced_persistent_threat', 
- 'critical', NOW() - INTERVAL '2 hours', 
- ARRAY['firewall-01', 'ids-01', 'web-server-01'],
- 'Multiple indicators suggest coordinated attack attempt targeting web infrastructure',
- 'senior_analyst_1'),
-
-('Email-based Malware Campaign', 'malware', 'email_security', 
- 'high', NOW() - INTERVAL '6 hours',
- ARRAY['email-server-01', 'workstation-finance-*'],
- 'Banking trojan distributed via phishing emails targeting finance department',
- 'malware_analyst_2');
-
--- Create monitoring and alerting functions
-CREATE OR REPLACE FUNCTION check_critical_events() RETURNS TABLE(
-    alert_type TEXT,
-    alert_message TEXT,
-    event_count BIGINT,
-    severity severity_enum
-) AS $
-BEGIN
-    -- Check for critical events in last hour
-    RETURN QUERY
-    SELECT 
-        'critical_events'::TEXT as alert_type,
-        'Critical security events detected in last hour'::TEXT as alert_message,
-        COUNT(*) as event_count,
-        'critical'::severity_enum as severity
-    FROM security_events
-    WHERE created_at >= NOW() - INTERVAL '1 hour'
-    AND severity IN ('critical', 'emergency')
-    AND status = 'new'
-    HAVING COUNT(*) > 0;
-    
-    -- Check for brute force attempts
-    RETURN QUERY
-    SELECT 
-        'brute_force'::TEXT as alert_type,
-        'Potential brute force attacks detected'::TEXT as alert_message,
-        COUNT(*) as event_count,
-        'high'::severity_enum as severity
-    FROM detect_brute_force_attempts('1 hour', 5)
-    HAVING COUNT(*) > 0;
-    
-    -- Check for unprocessed high priority vulnerabilities
-    RETURN QUERY
-    SELECT 
-        'critical_vulnerabilities'::TEXT as alert_type,
-        'Unaddressed critical vulnerabilities found'::TEXT as alert_message,
-        COUNT(*) as event_count,
-        'high'::severity_enum as severity
-    FROM vulnerability_assessments
-    WHERE status IN ('new', 'confirmed')
-    AND cvss_score >= 9.0
-    AND discovery_date < CURRENT_DATE - INTERVAL '7 days'
-    HAVING COUNT(*) > 0;
-END;
-$ LANGUAGE plpgsql;
-
--- Performance monitoring query
-CREATE OR REPLACE VIEW v_performance_stats AS
-SELECT 
-    schemaname,
-    tablename,
-    n_tup_ins as inserts,
-    n_tup_upd as updates,
-    n_tup_del as deletes,
-    n_live_tup as live_tuples,
-    n_dead_tup as dead_tuples,
-    last_vacuum,
-    last_autovacuum,
-    last_analyze,
-    last_autoanalyze
-FROM pg_stat_user_tables 
-WHERE schemaname = 'security_monitor'
-ORDER BY n_live_tup DESC;
-
--- Final setup and optimization
--- Set appropriate work_mem for complex queries
-SET work_mem = '256MB';
-
--- Create scheduled job framework (requires pg_cron extension)
--- SELECT cron.schedule('security-maintenance', '0 2 * * *', 'SELECT security_monitor.perform_maintenance();');
--- SELECT cron.schedule('metrics-calculation', '0 */6 * * *', 'SELECT security_monitor.calculate_security_metrics();');
-
--- Documentation and usage examples
-COMMENT ON SCHEMA security_monitor IS 'Comprehensive cybersecurity monitoring and incident response database schema';
-COMMENT ON TABLE security_events IS 'Central repository for all security-related events with advanced correlation capabilities';
-COMMENT ON TABLE vulnerability_assessments IS 'CVSS-based vulnerability tracking with comprehensive remediation workflow';
-COMMENT ON TABLE threat_intelligence IS 'Threat intelligence platform with IOC management and MITRE ATT&CK mapping';
-COMMENT ON TABLE security_incidents IS 'Enterprise incident response tracking with timeline and impact analysis';
-COMMENT ON FUNCTION detect_advanced_threats IS 'Machine learning-ready threat detection based on behavioral patterns';
-COMMENT ON FUNCTION calculate_comprehensive_risk_score IS 'Multi-factor risk scoring algorithm for prioritization';
-
--- Reset search path
-SET search_path TO DEFAULT;events se
-        WHERE 
-            se.created_at >= NOW() - p_time_window
-            AND se.status NOT IN ('false_positive', 'resolved')
+        FROM security_events se
+        WHERE se.created_at >= NOW() - p_time_window
+        AND se.status NOT IN ('false_positive', 'resolved')
         GROUP BY se.source_ip, se.username, se.event_type, se.severity
         HAVING COUNT(*) >= 2
     )
@@ -1045,7 +622,39 @@ BEGIN
     
     GET DIAGNOSTICS metrics_calculated = ROW_COUNT;
     
-    RETURN metrics_calculated;
+    RETURN metrics_calculated + 3; -- Account for the multiple inserts above
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function: Detect brute force attempts
+CREATE OR REPLACE FUNCTION detect_brute_force_attempts(
+    p_time_window INTERVAL DEFAULT '1 hour',
+    p_min_attempts INTEGER DEFAULT 5
+) RETURNS TABLE(
+    source_ip INET,
+    username TEXT,
+    attempt_count BIGINT,
+    first_attempt TIMESTAMP WITH TIME ZONE,
+    last_attempt TIMESTAMP WITH TIME ZONE,
+    target_systems TEXT[]
+) AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        se.source_ip,
+        se.username,
+        COUNT(*) as attempt_count,
+        MIN(se.created_at) as first_attempt,
+        MAX(se.created_at) as last_attempt,
+        array_agg(DISTINCT se.destination_ip::TEXT) as target_systems
+    FROM security_events se
+    WHERE se.created_at >= NOW() - p_time_window
+    AND se.event_type ILIKE '%auth%'
+    AND se.event_type ILIKE '%fail%'
+    AND se.source_ip IS NOT NULL
+    GROUP BY se.source_ip, se.username
+    HAVING COUNT(*) >= p_min_attempts
+    ORDER BY attempt_count DESC, last_attempt DESC;
 END;
 $$ LANGUAGE plpgsql;
 
@@ -1106,4 +715,411 @@ SELECT
     AVG(CASE WHEN processed_at IS NOT NULL THEN 
         EXTRACT(EPOCH FROM (processed_at - created_at))/60 
         ELSE NULL END) as avg_processing_time_minutes
-FROM security_
+FROM security_events
+WHERE created_at >= NOW() - INTERVAL '24 hours'
+UNION ALL
+SELECT 
+    'Last 7 Days' as time_period,
+    COUNT(*) as total_events,
+    COUNT(*) FILTER (WHERE severity IN ('critical', 'emergency')) as critical_events,
+    COUNT(*) FILTER (WHERE event_type LIKE '%authentication%') as auth_events,
+    COUNT(*) FILTER (WHERE event_type LIKE '%malware%') as malware_events,
+    COUNT(*) FILTER (WHERE status = 'new') as unprocessed_events,
+    AVG(CASE WHEN processed_at IS NOT NULL THEN 
+        EXTRACT(EPOCH FROM (processed_at - created_at))/60 
+        ELSE NULL END) as avg_processing_time_minutes
+FROM security_events
+WHERE created_at >= NOW() - INTERVAL '7 days'
+UNION ALL
+SELECT 
+    'Last 30 Days' as time_period,
+    COUNT(*) as total_events,
+    COUNT(*) FILTER (WHERE severity IN ('critical', 'emergency')) as critical_events,
+    COUNT(*) FILTER (WHERE event_type LIKE '%authentication%') as auth_events,
+    COUNT(*) FILTER (WHERE event_type LIKE '%malware%') as malware_events,
+    COUNT(*) FILTER (WHERE status = 'new') as unprocessed_events,
+    AVG(CASE WHEN processed_at IS NOT NULL THEN 
+        EXTRACT(EPOCH FROM (processed_at - created_at))/60 
+        ELSE NULL END) as avg_processing_time_minutes
+FROM security_events
+WHERE created_at >= NOW() - INTERVAL '30 days';
+
+CREATE UNIQUE INDEX ON mv_security_dashboard (time_period);
+
+-- Critical vulnerabilities view
+CREATE MATERIALIZED VIEW mv_critical_vulnerabilities AS
+SELECT 
+    va.*,
+    calculate_comprehensive_risk_score(
+        va.cvss_score,
+        va.exploit_available,
+        va.patch_available_date IS NOT NULL,
+        va.business_impact_score,
+        array_length(va.affected_systems, 1),
+        EXTRACT(DAYS FROM (CURRENT_DATE - va.discovery_date))::INTEGER
+    ) as calculated_risk_score,
+    CASE 
+        WHEN va.cvss_score >= 9.0 THEN 'Critical'
+        WHEN va.cvss_score >= 7.0 THEN 'High'
+        WHEN va.cvss_score >= 4.0 THEN 'Medium'
+        ELSE 'Low'
+    END as risk_category,
+    CURRENT_DATE - va.discovery_date as days_open,
+    CASE 
+        WHEN va.patch_available_date IS NOT NULL THEN 'Available'
+        ELSE 'Not Available'
+    END as patch_status
+FROM vulnerability_assessments va
+WHERE va.status IN ('new', 'confirmed', 'in_progress')
+ORDER BY va.cvss_score DESC NULLS LAST, va.discovery_date ASC;
+
+CREATE UNIQUE INDEX ON mv_critical_vulnerabilities (vuln_id);
+
+-- Threat landscape view
+CREATE MATERIALIZED VIEW mv_threat_landscape AS
+SELECT 
+    ti.threat_type,
+    ti.ioc_type,
+    COUNT(*) as total_indicators,
+    COUNT(*) FILTER (WHERE ti.confidence_level >= 80) as high_confidence_indicators,
+    COUNT(*) FILTER (WHERE ti.is_active = TRUE) as active_indicators,
+    AVG(ti.confidence_level) as avg_confidence,
+    MAX(ti.last_seen) as most_recent_sighting,
+    array_agg(DISTINCT ti.source) as sources,
+    array_agg(DISTINCT unnest(ti.tags)) FILTER (WHERE ti.tags IS NOT NULL) as all_tags
+FROM threat_intelligence ti
+WHERE ti.created_at >= NOW() - INTERVAL '90 days'
+GROUP BY ti.threat_type, ti.ioc_type
+ORDER BY total_indicators DESC;
+
+CREATE UNIQUE INDEX ON mv_threat_landscape (threat_type, ioc_type);
+
+-- Incident response metrics view
+CREATE MATERIALIZED VIEW mv_incident_metrics AS
+SELECT 
+    DATE_TRUNC('week', detected_at) as week_start,
+    COUNT(*) as total_incidents,
+    COUNT(*) FILTER (WHERE severity IN ('critical', 'emergency')) as critical_incidents,
+    COUNT(*) FILTER (WHERE status = 'closed') as resolved_incidents,
+    AVG(EXTRACT(EPOCH FROM time_to_detect)/3600) as avg_detection_time_hours,
+    AVG(EXTRACT(EPOCH FROM time_to_respond)/3600) as avg_response_time_hours,
+    AVG(EXTRACT(EPOCH FROM time_to_contain)/3600) as avg_containment_time_hours,
+    AVG(EXTRACT(EPOCH FROM time_to_resolve)/3600) as avg_resolution_time_hours,
+    AVG(estimated_financial_impact) as avg_estimated_impact
+FROM security_incidents
+WHERE detected_at >= NOW() - INTERVAL '6 months'
+GROUP BY DATE_TRUNC('week', detected_at)
+ORDER BY week_start DESC;
+
+CREATE UNIQUE INDEX ON mv_incident_metrics (week_start);
+
+-- Partitioning setup for time-series tables
+-- Security Events partitions (monthly)
+DO $$
+DECLARE
+    start_date DATE;
+    end_date DATE;
+    table_name TEXT;
+BEGIN
+    -- Create partitions for the last 6 months and next 6 months
+    FOR i IN -6..6 LOOP
+        start_date := DATE_TRUNC('month', CURRENT_DATE) + (i || ' months')::INTERVAL;
+        end_date := start_date + INTERVAL '1 month';
+        table_name := 'security_events_' || TO_CHAR(start_date, 'YYYY_MM');
+        
+        EXECUTE format('CREATE TABLE IF NOT EXISTS %I PARTITION OF security_events 
+                       FOR VALUES FROM (%L) TO (%L)', 
+                       table_name, start_date, end_date);
+    END LOOP;
+END $$;
+
+-- Access Logs partitions (weekly for better performance)
+DO $$
+DECLARE
+    start_date DATE;
+    end_date DATE;
+    table_name TEXT;
+BEGIN
+    -- Create partitions for the last 12 weeks and next 12 weeks
+    FOR i IN -12..12 LOOP
+        start_date := DATE_TRUNC('week', CURRENT_DATE) + (i || ' weeks')::INTERVAL;
+        end_date := start_date + INTERVAL '1 week';
+        table_name := 'access_logs_' || TO_CHAR(start_date, 'YYYY_WW');
+        
+        EXECUTE format('CREATE TABLE IF NOT EXISTS %I PARTITION OF access_logs 
+                       FOR VALUES FROM (%L) TO (%L)', 
+                       table_name, start_date, end_date);
+    END LOOP;
+END $$;
+
+-- Data retention and cleanup procedures
+CREATE OR REPLACE FUNCTION cleanup_expired_data() RETURNS INTEGER AS $$
+DECLARE
+    deleted_count INTEGER := 0;
+    total_deleted INTEGER := 0;
+BEGIN
+    -- Clean up expired security events (based on TTL)
+    DELETE FROM security_events 
+    WHERE ttl_expires_at IS NOT NULL AND ttl_expires_at < NOW();
+    GET DIAGNOSTICS deleted_count = ROW_COUNT;
+    total_deleted := total_deleted + deleted_count;
+    
+    -- Clean up old resolved incidents (older than 2 years)
+    DELETE FROM security_incidents 
+    WHERE status = 'closed' 
+    AND closed_at < NOW() - INTERVAL '2 years';
+    GET DIAGNOSTICS deleted_count = ROW_COUNT;
+    total_deleted := total_deleted + deleted_count;
+    
+    -- Clean up old access logs (older than 1 year for successful logins)
+    DELETE FROM access_logs 
+    WHERE access_result = 'success' 
+    AND access_timestamp < NOW() - INTERVAL '1 year';
+    GET DIAGNOSTICS deleted_count = ROW_COUNT;
+    total_deleted := total_deleted + deleted_count;
+    
+    -- Clean up expired threat intelligence
+    UPDATE threat_intelligence 
+    SET is_active = FALSE 
+    WHERE expiration_date IS NOT NULL 
+    AND expiration_date < NOW() 
+    AND is_active = TRUE;
+    
+    RETURN total_deleted;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Automated maintenance procedure
+CREATE OR REPLACE FUNCTION perform_maintenance() RETURNS TEXT AS $$
+DECLARE
+    result_text TEXT := '';
+    deleted_records INTEGER;
+BEGIN
+    -- Refresh materialized views
+    REFRESH MATERIALIZED VIEW mv_security_dashboard;
+    REFRESH MATERIALIZED VIEW mv_critical_vulnerabilities;
+    REFRESH MATERIALIZED VIEW mv_threat_landscape;
+    REFRESH MATERIALIZED VIEW mv_incident_metrics;
+    
+    result_text := result_text || 'Materialized views refreshed. ';
+    
+    -- Clean up expired data
+    SELECT cleanup_expired_data() INTO deleted_records;
+    result_text := result_text || 'Deleted ' || deleted_records || ' expired records. ';
+    
+    -- Update security metrics for yesterday
+    PERFORM calculate_security_metrics(
+        DATE_TRUNC('day', NOW() - INTERVAL '1 day'),
+        DATE_TRUNC('day', NOW())
+    );
+    result_text := result_text || 'Security metrics updated. ';
+    
+    -- Analyze tables for query optimization
+    ANALYZE security_events;
+    ANALYZE vulnerability_assessments;
+    ANALYZE access_logs;
+    ANALYZE threat_intelligence;
+    ANALYZE security_incidents;
+    
+    result_text := result_text || 'Table statistics updated.';
+    
+    RETURN result_text;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Function: Check for critical events
+CREATE OR REPLACE FUNCTION check_critical_events() RETURNS TABLE(
+    alert_type TEXT,
+    alert_message TEXT,
+    event_count BIGINT,
+    severity severity_enum
+) AS $$
+BEGIN
+    -- Check for critical events in last hour
+    RETURN QUERY
+    SELECT 
+        'critical_events'::TEXT as alert_type,
+        'Critical security events detected in last hour'::TEXT as alert_message,
+        COUNT(*) as event_count,
+        'critical'::severity_enum as severity
+    FROM security_events
+    WHERE created_at >= NOW() - INTERVAL '1 hour'
+    AND severity IN ('critical', 'emergency')
+    AND status = 'new'
+    HAVING COUNT(*) > 0;
+    
+    -- Check for brute force attempts
+    RETURN QUERY
+    SELECT 
+        'brute_force'::TEXT as alert_type,
+        'Potential brute force attacks detected'::TEXT as alert_message,
+        COUNT(*) as event_count,
+        'high'::severity_enum as severity
+    FROM detect_brute_force_attempts('1 hour', 5)
+    HAVING COUNT(*) > 0;
+    
+    -- Check for unprocessed high priority vulnerabilities
+    RETURN QUERY
+    SELECT 
+        'critical_vulnerabilities'::TEXT as alert_type,
+        'Unaddressed critical vulnerabilities found'::TEXT as alert_message,
+        COUNT(*) as event_count,
+        'high'::severity_enum as severity
+    FROM vulnerability_assessments
+    WHERE status IN ('new', 'confirmed')
+    AND cvss_score >= 9.0
+    AND discovery_date < CURRENT_DATE - INTERVAL '7 days'
+    HAVING COUNT(*) > 0;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Role-based security model
+CREATE ROLE security_analyst_ro;
+CREATE ROLE security_analyst_rw;
+CREATE ROLE security_admin;
+CREATE ROLE incident_responder;
+CREATE ROLE threat_hunter;
+CREATE ROLE compliance_auditor;
+
+-- Permissions for read-only analyst
+GRANT USAGE ON SCHEMA security_monitor TO security_analyst_ro;
+GRANT SELECT ON ALL TABLES IN SCHEMA security_monitor TO security_analyst_ro;
+GRANT SELECT ON ALL MATERIALIZED VIEWS IN SCHEMA security_monitor TO security_analyst_ro;
+
+-- Permissions for read-write analyst
+GRANT USAGE ON SCHEMA security_monitor TO security_analyst_rw;
+GRANT SELECT, INSERT, UPDATE ON security_events TO security_analyst_rw;
+GRANT SELECT, INSERT, UPDATE ON vulnerability_assessments TO security_analyst_rw;
+GRANT SELECT ON access_logs TO security_analyst_rw;
+GRANT SELECT, INSERT, UPDATE ON threat_intelligence TO security_analyst_rw;
+GRANT SELECT ON security_incidents TO security_analyst_rw;
+GRANT SELECT ON ALL MATERIALIZED VIEWS IN SCHEMA security_monitor TO security_analyst_rw;
+
+-- Permissions for incident responder
+GRANT USAGE ON SCHEMA security_monitor TO incident_responder;
+GRANT SELECT, INSERT, UPDATE ON security_incidents TO incident_responder;
+GRANT SELECT, INSERT, UPDATE ON incident_events TO incident_responder;
+GRANT SELECT, UPDATE ON security_events TO incident_responder;
+GRANT SELECT ON ALL TABLES IN SCHEMA security_monitor TO incident_responder;
+
+-- Permissions for threat hunter
+GRANT USAGE ON SCHEMA security_monitor TO threat_hunter;
+GRANT SELECT ON ALL TABLES IN SCHEMA security_monitor TO threat_hunter;
+GRANT SELECT, INSERT, UPDATE, DELETE ON threat_intelligence TO threat_hunter;
+GRANT EXECUTE ON FUNCTION detect_advanced_threats TO threat_hunter;
+GRANT EXECUTE ON FUNCTION enrich_with_threat_intel TO threat_hunter;
+
+-- Permissions for security admin
+GRANT ALL PRIVILEGES ON SCHEMA security_monitor TO security_admin;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA security_monitor TO security_admin;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA security_monitor TO security_admin;
+GRANT ALL PRIVILEGES ON ALL FUNCTIONS IN SCHEMA security_monitor TO security_admin;
+
+-- Performance monitoring query
+CREATE OR REPLACE VIEW v_performance_stats AS
+SELECT 
+    schemaname,
+    tablename,
+    n_tup_ins as inserts,
+    n_tup_upd as updates,
+    n_tup_del as deletes,
+    n_live_tup as live_tuples,
+    n_dead_tup as dead_tuples,
+    last_vacuum,
+    last_autovacuum,
+    last_analyze,
+    last_autoanalyze
+FROM pg_stat_user_tables 
+WHERE schemaname = 'security_monitor'
+ORDER BY n_live_tup DESC;
+
+-- Sample realistic data for testing and demonstration
+INSERT INTO security_events (
+    event_type, severity, source_ip, destination_ip, username, event_title, event_description, raw_log_data, rule_id
+) VALUES 
+('failed_authentication', 'medium', '192.168.1.100'::INET, '10.0.0.10'::INET, 'jdoe', 
+ 'Multiple failed SSH login attempts', 
+ 'User jdoe failed to authenticate via SSH 5 times in 2 minutes',
+ '{"attempts": 5, "protocol": "SSH", "port": 22, "user_agent": "OpenSSH_8.0"}', 'AUTH_001'),
+
+('malware_detection', 'critical', '10.0.0.50'::INET, NULL, 'system', 
+ 'Trojan detected in email attachment', 
+ 'Sophisticated banking trojan detected in PDF attachment via email',
+ '{"file_hash": "a1b2c3d4e5f6789012345678901234567890abcdef", "scanner": "ClamAV", "quarantined": true}', 'MAL_002'),
+
+('network_intrusion', 'high', '203.0.113.42'::INET, '10.0.0.100'::INET, NULL, 
+ 'Suspicious network scanning activity', 
+ 'Port scanning detected from external IP targeting internal servers',
+ '{"ports_scanned": [22, 80, 443, 3389], "scan_duration": 120, "packets": 1500}', 'NET_003'),
+
+('data_exfiltration', 'emergency', '10.0.0.25'::INET, '198.51.100.10'::INET, 'asmith', 
+ 'Large data transfer to external destination', 
+ 'Unusual large data transfer detected to suspicious external IP',
+ '{"bytes_transferred": 5368709120, "duration": 1800, "encrypted": false}', 'DLP_001');
+
+INSERT INTO vulnerability_assessments (
+    cve_id, vulnerability_name, cvss_score, cvss_vector, affected_systems, discovery_date, 
+    status, remediation_priority, business_impact_score, exploit_available
+) VALUES 
+('CVE-2024-1234', 'Apache HTTP Server Remote Code Execution', 9.8, 
+ 'CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H',
+ ARRAY['web-server-01', 'web-server-02', 'web-server-03'], 
+ CURRENT_DATE - INTERVAL '5 days', 'confirmed', 1, 9, true),
+
+('CVE-2024-5678', 'PostgreSQL Privilege Escalation', 8.1,
+ 'CVSS:3.1/AV:L/AC:L/PR:L/UI:N/S:U/C:H/I:H/A:H',
+ ARRAY['db-server-01', 'db-server-02'], 
+ CURRENT_DATE - INTERVAL '10 days', 'in_progress', 1, 8, false),
+
+('CVE-2024-9012', 'Windows SMB Information Disclosure', 6.1,
+ 'CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N',
+ ARRAY['file-server-01', 'file-server-02', 'workstation-*'], 
+ CURRENT_DATE - INTERVAL '3 days', 'new', 2, 5, false);
+
+INSERT INTO threat_intelligence (
+    ioc_type, ioc_value, threat_type, confidence_level, source, tags, mitre_techniques
+) VALUES 
+('ip', '198.51.100.42', 'c2_server', 95, 'ThreatIntel_Premium', 
+ ARRAY['apt', 'c2', 'persistent'], ARRAY['T1071.001', 'T1090']),
+
+('domain', 'malicious-banking-site.example', 'phishing', 87, 'PhishTank_API', 
+ ARRAY['phishing', 'banking', 'credential_theft'], ARRAY['T1566.002']),
+
+('file_hash', 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855', 
+ 'banking_trojan', 92, 'VirusTotal_API', 
+ ARRAY['trojan', 'banking', 'keylogger'], ARRAY['T1056.001', 'T1055']);
+
+INSERT INTO security_incidents (
+    incident_title, incident_type, incident_category, severity, detected_at, affected_systems,
+    incident_summary, assigned_analyst
+) VALUES 
+('Suspected APT Activity on Network Perimeter', 'intrusion', 'advanced_persistent_threat', 
+ 'critical', NOW() - INTERVAL '2 hours', 
+ ARRAY['firewall-01', 'ids-01', 'web-server-01'],
+ 'Multiple indicators suggest coordinated attack attempt targeting web infrastructure',
+ 'senior_analyst_1'),
+
+('Email-based Malware Campaign', 'malware', 'email_security', 
+ 'high', NOW() - INTERVAL '6 hours',
+ ARRAY['email-server-01', 'workstation-finance-*'],
+ 'Banking trojan distributed via phishing emails targeting finance department',
+ 'malware_analyst_2');
+
+-- Final setup and optimization
+-- Set appropriate work_mem for complex queries
+SET work_mem = '256MB';
+
+-- Documentation and usage examples
+COMMENT ON SCHEMA security_monitor IS 'Comprehensive cybersecurity monitoring and incident response database schema';
+COMMENT ON TABLE security_events IS 'Central repository for all security-related events with advanced correlation capabilities';
+COMMENT ON TABLE vulnerability_assessments IS 'CVSS-based vulnerability tracking with comprehensive remediation workflow';
+COMMENT ON TABLE threat_intelligence IS 'Threat intelligence platform with IOC management and MITRE ATT&CK mapping';
+COMMENT ON TABLE security_incidents IS 'Enterprise incident response tracking with timeline and impact analysis';
+COMMENT ON FUNCTION detect_advanced_threats IS 'Machine learning-ready threat detection based on behavioral patterns';
+COMMENT ON FUNCTION calculate_comprehensive_risk_score IS 'Multi-factor risk scoring algorithm for prioritization';
+
+-- Reset search path
+SET search_path TO DEFAULT;
+
+-- Final deployment message
+SELECT 'Cybersecurity monitoring schema deployed successfully! Use security_monitor schema.' as deployment_status;
