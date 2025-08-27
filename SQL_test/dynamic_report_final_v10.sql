@@ -14,6 +14,7 @@
 --   - SELECT and USAGE on p_table_name schema
 --   - CREATE, USAGE on p_output_table schema (if not temporary)
 --   - USAGE on pg_catalog and information_schema
+
 CREATE OR REPLACE PROCEDURE generate_dynamic_report(
     p_table_name VARCHAR,        -- Source table (schema-qualified, e.g., public.sales_data or "my schema".sales_data)
     p_dimension_column VARCHAR,  -- Column to group by (e.g., department)
