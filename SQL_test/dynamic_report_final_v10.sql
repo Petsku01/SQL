@@ -8,7 +8,7 @@
 --   4. Fixed dimension column type preservation
 --   5. Fixed pivot value sanitization for column names
 --   6. Fixed output schema resolution for temporary tables
---   7. Fixed collation handling for pivot values
+--   7. Fixed collation handling for pivot values 
 
 -- Required Permissions: 
 --   - SELECT and USAGE on p_table_name schema
