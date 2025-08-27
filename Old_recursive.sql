@@ -7,10 +7,10 @@ WITH RECURSIVE EmployeeHierarchy AS (
     FROM Employees e
     INNER JOIN EmployeeHierarchy eh ON e.ManagerID = eh.EmployeeID
 )
-SELECT EmployeeName, Level, (
+SELECT eh.EmployeeName, eh.Level, (
     SELECT COUNT(*) 
-    FROM EmployeeHierarchy sub 
-    WHERE sub.ManagerID = eh.EmployeeID
+    FROM Employees e2
+    WHERE e2.ManagerID = eh.EmployeeID
 ) AS DirectReports
 FROM EmployeeHierarchy eh
-ORDER BY Level, EmployeeName;
+ORDER BY eh.Level, eh.EmployeeName;
